@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class AdicionalController extends HttpServlet {
     AdicionalService adicionalService;
 
-    AdicionalController(){
+    public AdicionalController(){
+        super();
         adicionalService = new AdicionalServiceImpl();
     }
 
@@ -31,9 +33,13 @@ public class AdicionalController extends HttpServlet {
         }
     }
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try{AdicionalDTO adicionalDTO = adicionalService.consultarAdicional( Integer.parseInt( req.getParameter("id") ) );
-        resp.addHeader("tipo",adicionalDTO.getTipo());
-        resp.addIntHeader("precio", (int) adicionalDTO.getPrecioBase());
+
+        try{
+            AdicionalDTO adicionalDTO = adicionalService.consultarAdicional( Integer.parseInt( req.getParameter("id") ) );
+            resp.addHeader("tipo",adicionalDTO.getTipo());
+            PrintWriter pw = resp.getWriter();
+
+            pw.write(String.valueOf(adicionalDTO.getPrecioBase()));
         }        catch (Exception e){
             throw new ControllerException("error al get adicional" + e.getMessage());
         }

@@ -24,6 +24,7 @@ public class AutoController extends HttpServlet {
     AdicionalService adicionalService;
 
     public AutoController(){
+        super();
         autoService = new AutoServiceImpl();
         adicionalService = new AdicionalServiceImpl();
     }
