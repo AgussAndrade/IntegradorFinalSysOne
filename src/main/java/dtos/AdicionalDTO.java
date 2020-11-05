@@ -1,7 +1,7 @@
 package dtos;
 
 public class AdicionalDTO {
-    private double precioBase;
+    private double precioBase = 0;
     private String tipo;
 
     public double getPrecioBase() {

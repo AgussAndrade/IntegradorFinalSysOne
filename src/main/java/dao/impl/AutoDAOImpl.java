@@ -70,12 +70,17 @@ public class AutoDAOImpl implements AutoDAO {
 
     @Override
     public void delete(Integer id) throws DAOException {
+        System.out.println("hola");
         List<Integer> keysAdicional = autoAdicionalDAO.queryForAuto( id);
+        System.out.println("como");
         autoAdicionalDAO.delete(id);
+        System.out.println("holas");
         for(Integer key : keysAdicional){
+            System.out.println("holasa");
             adicionalDAO.delete(key);
         }
-        String queryAuto = "delete * from auto where id = " + id;
+        System.out.println("holaasdsadas");
+        String queryAuto = "delete from auto where id = " + id;
         sqlManager.execute(queryAuto);
     }
 

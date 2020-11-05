@@ -21,7 +21,9 @@ public class Converter {
 
     public Adicional dtoToAdicional(AdicionalDTO adicionalDTO) {
         Adicional adicional = getAdicional(adicionalDTO.getTipo());
-        adicional.setPrecioBase(adicionalDTO.getPrecioBase());
+        if(adicionalDTO.getPrecioBase() != 0){
+            adicional.setPrecioBase(adicionalDTO.getPrecioBase());
+        }
         return adicional;
     }
     public Auto dtoToAuto(AutoDTO autoDTO){
@@ -29,7 +31,9 @@ public class Converter {
         for(AdicionalDTO adicionalDTO : autoDTO.getAdicionales()){
             auto.addAdicional(dtoToAdicional(adicionalDTO));
         }
-        auto.setPrecioBase(autoDTO.getPrecioBase());
+        if(autoDTO.getPrecioBase() != 0){
+            auto.setPrecioBase(autoDTO.getPrecioBase());
+        }
         auto.setPrecioFinal(autoDTO.getPrecioFinal());
         return auto;
     }

@@ -61,11 +61,13 @@ public class AutoServiceImpl implements AutoService {
     @Override
     public void precioFinal(AutoDTO autoDTO) {
         double toReturn =0;
-        for(AdicionalDTO adicionalDTO : autoDTO.getAdicionales()){
-            toReturn += adicionalDTO.getPrecioBase();
+        Auto auto = converter.dtoToAuto(autoDTO);
+        for(Adicional adicional : auto.getAdicionales()){
+            toReturn += adicional.getPrecioBase();
         }
-        toReturn += autoDTO.getPrecioBase();
+        toReturn += auto.getPrecioBase();
         autoDTO.setPrecioFinal(toReturn);
+        autoDTO.setPrecioBase(auto.getPrecioBase());
     }
 
     @Override

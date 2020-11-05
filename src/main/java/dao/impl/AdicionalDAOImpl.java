@@ -37,7 +37,7 @@ public class AdicionalDAOImpl implements AdicionalDAO {
 
     @Override
     public void delete(Integer id) throws DAOException {
-        String query = "delete * from adicional where id =" + id;
+        String query = "delete from adicional where id =" + id;
         sqlManager.execute(query);
     }
 

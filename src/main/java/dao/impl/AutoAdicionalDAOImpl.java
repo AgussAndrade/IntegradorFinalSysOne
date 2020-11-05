@@ -25,24 +25,26 @@ public class AutoAdicionalDAOImpl implements AutoAdicionalDAO {
 
     @Override
     public void delete(Integer id) throws DAOException {
-        String query = "delete * from auto_adicional where id_auto = " + id;
+        String query = "delete from auto_adicional where id_auto = " + id;
         sqlManager.execute(query);
     }
 
     @Override
     public List<Integer> queryForAuto(Integer idAuto) throws DAOException {
-        String query = "select id_adicional from auto where id = " + idAuto;
+        String query = "select * from auto_adicional where id_auto = " + idAuto;
         List<Integer> keysAdicional = new ArrayList<>();
         Connection conn = sqlManager.getConnection();
         try{
             ResultSet rs = null;
-            Statement sentencia = conn.createStatement();
-            sentencia.execute(query);
 
-            rs = sentencia.getResultSet();
+            Statement sentencia = conn.createStatement();
+
+            rs = sentencia.executeQuery(query);
 
             while(rs.next()) {
+
                 keysAdicional.add(rs.getInt("id_adicional"));
+                System.out.println(rs.getInt("id_adicional"));
             }
         }
         catch (Exception e){

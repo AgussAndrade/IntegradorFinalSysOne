@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +31,7 @@ public class AutoController extends HttpServlet {
         adicionalService = new AdicionalServiceImpl();
     }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         try{
             AutoDTO autoDTO = new AutoDTO();
@@ -43,10 +46,13 @@ public class AutoController extends HttpServlet {
         }
     }
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         try{
             String id = req.getParameter("id");
+            PrintWriter pw = res.getWriter();
             if(id != null){
+
                 AutoDTO autoDTO = autoService.consultarAuto(Integer.parseInt(id));
                 addAuto(res,req,autoDTO);
             }
@@ -81,10 +87,16 @@ public class AutoController extends HttpServlet {
         }
     }
 
-    private void addAuto( HttpServletResponse res,HttpServletRequest req, AutoDTO autoDTO) throws ServiceException {
-        res.addHeader("modelo",autoDTO.getModelo());
-        res.addIntHeader("precioFinal", (int) autoDTO.getPrecioFinal());
-        res.addIntHeader("precioBase",(int) autoDTO.getPrecioBase());
+    private void addAuto( HttpServletResponse res,HttpServletRequest req, AutoDTO autoDTO) throws ServiceException, ControllerException {
+        PrintWriter pw = null;
+        try {
+            pw = res.getWriter();
+        } catch (IOException e) {
+            throw new ControllerException("error en obtener pw" + e.getMessage());
+        }
+        pw.write(autoDTO.getModelo());
+        pw.write(String.valueOf(autoDTO.getPrecioFinal()));
+        pw.write(String.valueOf(autoDTO.getPrecioBase()));
         addAdicional(req, autoDTO);
     }
     private void addAdicional(HttpServletRequest req, AutoDTO autoDTO) throws ServiceException {
