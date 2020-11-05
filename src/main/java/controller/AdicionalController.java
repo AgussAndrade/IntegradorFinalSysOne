@@ -36,10 +36,13 @@ public class AdicionalController extends HttpServlet {
 
         try{
             AdicionalDTO adicionalDTO = adicionalService.consultarAdicional( Integer.parseInt( req.getParameter("id") ) );
-            resp.addHeader("tipo",adicionalDTO.getTipo());
             PrintWriter pw = resp.getWriter();
 
-            pw.write(String.valueOf(adicionalDTO.getPrecioBase()));
+            String json = "{ \n" +
+                    "  precioBase : " + String.valueOf(adicionalDTO.getPrecioBase()) + "\n" +
+                    "  tipo : " + adicionalDTO.getTipo() + "\n" +
+                    "}";
+            pw.write(json);
         }        catch (Exception e){
             throw new ControllerException("error al get adicional" + e.getMessage());
         }
